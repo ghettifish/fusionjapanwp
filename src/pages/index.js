@@ -10,9 +10,10 @@ import Chili from "../components/chili"
 
 const IndexPage = ({ data }) => (
   <Layout>
+    <SEO title="Fusion Japan Woodland Park Menu" description="Fan-made menu for Fusion Japan restaurant in Woodland Park Colorado"/>
     <div>
       {data.allContentfulMenuCategory.nodes.map(x => (
-        <div key={x.id}>
+        <div key={x.id}>  
           <Category data={data} name={x.categoryName} />
         </div>
       ))
