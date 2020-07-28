@@ -7,6 +7,13 @@ module.exports = {
   plugins: [
     `gatsby-plugin-emotion`,
     {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        // The property ID; the tracking code won't be generated without it
+        trackingId: "UA-173917314-1"
+      }
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId: `y8mm766yw6ku`,
