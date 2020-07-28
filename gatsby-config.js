@@ -5,14 +5,16 @@ module.exports = {
     author: `@nicbovee`,
   },
   plugins: [
-    `gatsby-plugin-emotion`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         // The property ID; the tracking code won't be generated without it
-        trackingId: "UA-173917314-1"
-      }
-    },
+        trackingId: "UA-173917314-1",
+        // Defines where to place the tracking script - `true` in the head and `false` in the body
+        head: false, 
+      },
+    }
+    `gatsby-plugin-emotion`,
     {
       resolve: `gatsby-source-contentful`,
       options: {
