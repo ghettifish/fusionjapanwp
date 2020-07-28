@@ -5,6 +5,7 @@ module.exports = {
     author: `@nicbovee`,
   },
   plugins: [
+    `gatsby-plugin-emotion`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
@@ -13,8 +14,7 @@ module.exports = {
         // Defines where to place the tracking script - `true` in the head and `false` in the body
         head: false, 
       },
-    }
-    `gatsby-plugin-emotion`,
+    },
     {
       resolve: `gatsby-source-contentful`,
       options: {
