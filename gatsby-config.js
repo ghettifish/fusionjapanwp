@@ -1,10 +1,18 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Fusion Japan`,
+    description: `Sushi Restaurant in Woodland Park Colorado offering, Thai, Japanese, and Chinese inspired dishes.`,
+    author: `@nicbovee`,
   },
   plugins: [
+    `gatsby-plugin-emotion`,
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `y8mm766yw6ku`,
+        accessToken: `340PWA9yugcqUhDs5P_Z14NafNbzSsPEfwQFvAnSR5E`,
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,

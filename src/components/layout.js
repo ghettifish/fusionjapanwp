@@ -8,6 +8,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
+import { css, cx } from 'emotion'
 
 import Header from "./header"
 import "./layout.css"
@@ -34,10 +35,10 @@ const Layout = ({ children }) => {
         }}
       >
         <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
+        <footer className={css`
+          font-size: 12px;
+        `}>
+          © {new Date().getFullYear()}, Built by Nic Bovee your #1 fan.
         </footer>
       </div>
     </>

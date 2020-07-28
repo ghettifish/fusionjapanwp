@@ -1,13 +1,14 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import { css, cx } from 'emotion'
 
 const Header = ({ siteTitle }) => (
   <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
+    className={css`
+    background: #bf5c3c;
+    margin-bottom: 1.45rem;
+    `}
   >
     <div
       style={{
@@ -22,11 +23,22 @@ const Header = ({ siteTitle }) => (
           style={{
             color: `white`,
             textDecoration: `none`,
+            fontWeight:100,
+            textTransform: 'uppercase'
+
           }}
         >
           {siteTitle}
         </Link>
       </h1>
+      <p className={css`
+        color: #fff;
+        font-family: sans-serif;
+        font-size: 16px;
+
+      `}>
+        Asian cuisine in the heart of Woodland Park Colorado.
+      </p>
     </div>
   </header>
 )
