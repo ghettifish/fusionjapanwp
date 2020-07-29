@@ -58,11 +58,18 @@ const IndexPage = ({ data }) => {
        font-weight: 100;
        margin-top: 50px;`}>Sort menu by:</h3>
       <ul css={css`
-      display: inline !important;
+      display: inline;
       list-style: none;
       margin-left: 0;
       font-size: 14px;
       line-height: 35px;
+      @media (max-width:400px){
+        overflow: scroll;
+        width: 100vw;
+        display: flex;
+        margin-left: -15px;
+        margin-bottom: 0;
+      }
 
       `}>
         <li css={liStyle}><span css={link} onClick={allItems}>All Items</span></li>
@@ -162,7 +169,7 @@ const MenuTitle = ({ title }) => (
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 100;
-  margin-top: 50px;
+  margin-bottom: 50px;
   `}>{title}</h3>
 )
 
