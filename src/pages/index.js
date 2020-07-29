@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "gatsby"
 import { graphql } from 'gatsby'
-import { css, cx } from 'emotion'
+import { css, jsx } from '@emotion/core'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -24,20 +24,20 @@ const IndexPage = ({ data }) => {
 
     <Layout>
       <SEO title="Fusion Japan Woodland Park Menu" description="Fan-made menu for Fusion Japan restaurant in Woodland Park Colorado" />
-      <h3 className={css`
+      <h3 css={css`
        text-transform: uppercase;
        letter-spacing: 3px;
        font-weight: 100;
        margin-top: 50px;`}>Sort menu by:</h3>
-      <ul className={css`
+      <ul css={css`
       display: inline !important;
       list-style: none;
       margin-left: 0;
       font-size: 14px;
       `}>
-        <li className={css`display: inline; margin-right: 20px; font-family: sans-serif;`}><a href="#" className={css`text-decoration: none; color: #8c8686;`}onClick={allItems}>All Items</a></li>
+        <li css={css`display: inline; margin-right: 20px; font-family: sans-serif;`}><a href="#" css={css`text-decoration: none; color: #8c8686;`}onClick={allItems}>All Items</a></li>
         {data.allContentfulMenuCategory.nodes.map(x => (
-          <li className={css`display: inline; margin-right: 20px; font-family: sans-serif;`}><a href="#" className={css`text-decoration: none; color: #8c8686;`}onClick={() => flip(x)}>{x.categoryName}</a></li>
+          <li css={css`display: inline; margin-right: 20px; font-family: sans-serif;`}><a href="#" css={css`text-decoration: none; color: #8c8686;`}onClick={() => flip(x)}>{x.categoryName}</a></li>
         ))
         }
       </ul>
@@ -99,24 +99,24 @@ const Category = ({ name, data }) => {
 }
 
 const MenuItem = ({ id, name, description, spicy }) => (
-  <div key={id} className={css`
+  <div key={id} css={css`
   padding: 10px;
 `}>
-    <h4 className={css`
+    <h4 css={css`
   margin: 0;
   text-transform: uppercase;
   color: #c39b7e;
   display: inline;
 `}>{name}{spicy && <Chili />}</h4>
 
-    <p className={css`
+    <p css={css`
   margin: 0;
 `}>{description}</p>
   </div>
 )
 
 const MenuTitle = ({ title }) => (
-  <h3 className={css`
+  <h3 css={css`
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 100;

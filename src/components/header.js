@@ -1,11 +1,11 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
-import { css, cx } from 'emotion'
+import { css, jsx } from '@emotion/core'
 
 const Header = ({ siteTitle }) => (
   <header
-    className={css`
+    css={css`
     background: #bf5c3c;
     margin-bottom: 1.45rem;
     `}
@@ -31,7 +31,7 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
-      <p className={css`
+      <p css={css`
         color: #fff;
         font-family: sans-serif;
         font-size: 16px;
