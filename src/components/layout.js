@@ -28,15 +28,26 @@ const Layout = ({ children }) => {
     <>
       <Header siteTitle={data.site.siteMetadata.title} />
       <div
+        css={css`
+          position: relative;
+          min-height: 100vh;
+        `}
         style={{
           margin: `0 auto`,
           maxWidth: 960,
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <main>{children}</main>
+        <main css={css`
+        padding-bottom: 2.5rem;
+        `}>{children}</main>
         <footer css={css`
           font-size: 12px;
+          position: absolute;
+          bottom: 0;
+          width:100%;
+          height: 2.5rem;            /* Footer height */
+
         `}>
           © {new Date().getFullYear()}, Built by Nic Bovee your #1 fan.
         </footer>

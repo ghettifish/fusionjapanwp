@@ -8,7 +8,7 @@ import SEO from "../components/seo"
 import Img from "gatsby-image"
 import Chili from "../components/chili"
 import FlipMove from "react-flip-move"
-
+import Sushi from "../components/sushi"
 const IndexPage = ({ data }) => {
   const [categories, setCategories] = useState(data.allContentfulMenuCategory.nodes);
 
@@ -20,6 +20,34 @@ const IndexPage = ({ data }) => {
     setCategories([{ categoryName: category.categoryName, id: category.id }])
 
   }
+  const link = css`
+  text-decoration: none; 
+  color: #8c8686;
+  padding: 5px 15px !important;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: #c39b7e;
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: underline;
+  }
+
+  `;
+
+  const linkActive = css`
+    background: #bf5c3c;
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: underline;
+  `
+
+  const liStyle = css`
+  display: inline; 
+  margin-right: 5px; 
+  font-family: sans-serif;
+  white-space: nowrap;
+  `;
   return (
 
     <Layout>
@@ -34,11 +62,19 @@ const IndexPage = ({ data }) => {
       list-style: none;
       margin-left: 0;
       font-size: 14px;
+      line-height: 35px;
+
       `}>
-        <li css={css`display: inline; margin-right: 20px; font-family: sans-serif;`}><a href="#" css={css`text-decoration: none; color: #8c8686;`}onClick={allItems}>All Items</a></li>
-        {data.allContentfulMenuCategory.nodes.map(x => (
-          <li css={css`display: inline; margin-right: 20px; font-family: sans-serif;`}><a href="#" css={css`text-decoration: none; color: #8c8686;`}onClick={() => flip(x)}>{x.categoryName}</a></li>
-        ))
+        <li css={liStyle}><span css={link} onClick={allItems}>All Items</span></li>
+        {data.allContentfulMenuCategory.nodes.map(x => {
+          let styles = [link];
+          if (categories.map(x => x.categoryName).includes(x.categoryName)) styles = [link, linkActive]
+
+          return (
+            <li css={liStyle}><span css={styles} onClick={() => flip(x)}>{x.categoryName}</span></li>
+          )
+        }
+        )
         }
       </ul>
       <div>
@@ -51,6 +87,7 @@ const IndexPage = ({ data }) => {
           }
         </FlipMove>
       </div>
+      <Sushi />
     </Layout>
   )
 }
@@ -64,13 +101,16 @@ const Category = ({ name, data }) => {
     alert("clicked");
     setMainMenuItems(mainMenuItems.reverse())
   }
+  const wrapperStyle = css`
+  padding: 30px 0; 
+  `;
   const reverseSushi = () => {
     alert("clicked");
     setSushi(sushi.reverse())
   }
   if (mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === name).length > 0) {
     return (
-      <div>
+      <div css={wrapperStyle}>
         <MenuTitle title={name} />
         <FlipMove>
           {mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === name).map(x => (
@@ -82,7 +122,7 @@ const Category = ({ name, data }) => {
     )
   } else if (sushi.filter(y => y.menuCategory === name).length > 0) {
     return (
-      <div>
+      <div css={wrapperStyle}>
         <MenuTitle title={name} />
         <FlipMove>
 
@@ -94,7 +134,9 @@ const Category = ({ name, data }) => {
       </div>
     )
   } else {
-    return null
+    return (
+      <p css={wrapperStyle}>No items match this category. This menu is still a work in progress  🤷‍♂️</p>
+    )
   }
 }
 
