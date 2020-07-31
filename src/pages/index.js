@@ -1,11 +1,9 @@
 import React, { useState, forwardRef } from "react"
-import { Link } from "gatsby"
 import { graphql } from 'gatsby'
-import { css, jsx } from '@emotion/core'
+import { css } from '@emotion/core'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Img from "gatsby-image"
 import Chili from "../components/chili"
 import FlipMove from "react-flip-move"
 import Sushi from "../components/sushi"
@@ -72,13 +70,27 @@ const IndexPage = ({ data }) => {
       }
 
       `}>
-        <li css={liStyle}><span css={link} onClick={allItems}>All Items</span></li>
+        <li css={liStyle}><a
+          role="button"
+          onKeyDown={allItems}
+          href="#!"
+          css={link} onClick={allItems}>All Items</a></li>
         {data.allContentfulMenuCategory.nodes.map(x => {
           let styles = [link];
           if (categories.map(x => x.categoryName).includes(x.categoryName)) styles = [link, linkActive]
 
           return (
-            <li key={x.id} css={liStyle}><span css={styles} onClick={() => flip(x)}>{x.categoryName}</span></li>
+            <li key={x.id} css={liStyle}>
+              <a role="button"
+                tabIndex={0}
+                css={styles}
+                onClick={() => flip(x)}
+                onKeyDown={() => flip(x)}
+                href="#!"
+              >
+                {x.categoryName}
+              </a>
+            </li>
           )
         }
         )
@@ -102,38 +114,19 @@ const IndexPage = ({ data }) => {
 
 const Category = forwardRef(({ category, data }, ref) => {
 
-  const [mainMenuItems, setMainMenuItems] = useState(data.allContentfulMainMenuItems.nodes);
-  const [sushi, setSushi] = useState(data.allContentfulSushi.nodes);
-  const reverseMenuItems = () => {
-    alert("clicked");
-    setMainMenuItems(mainMenuItems.reverse())
-  }
+  // const [mainMenuItems, setMainMenuItems] = useState(data.allContentfulMainMenuItems.nodes);
+
+  const mainMenuItems = data.allContentfulMainMenuItems.nodes;
   const wrapperStyle = css`
   padding: 30px 0; 
   `;
-console.log(category)
   if (mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === category.categoryName).length > 0) {
     return (
       <div css={wrapperStyle} ref={ref}>
-        <MenuTitle title={category.categoryName} />
-        <MenuSubtitle subtitle={category.description && category.description.description}/>
+        <MenuTitle title={category.categoryName} subtitle={category.description && category.description.description} />
         <FlipMove>
           {mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === category.categoryName).map(x => (
-            <MenuItem  key={x.id} id={x.id} name={x.name} description={x.description.description} spicy={x.spicy} />
-          ))
-          }
-        </FlipMove>
-      </div>
-    )
-  } else if (sushi.filter(y => y.menuCategory === category.categoryName).length > 0) {
-    return (
-      <div css={wrapperStyle} ref={ref}>
-        <MenuTitle title={category.categoryName} />
-        <MenuSubtitle subtitle={category.description && category.description.description}/>
-        <FlipMove>
-
-          {sushi.filter(y => y.menuCategory === category.categoryName).map(x => (
-            <MenuItem id={x.id} name={x.name} description={x.description.description} />
+            <MenuItem key={x.id} id={x.id} name={x.name} description={x.description.description} spicy={x.spicy} />
           ))
           }
         </FlipMove>
@@ -141,7 +134,7 @@ console.log(category)
     )
   } else {
     return (
-      <p css={wrapperStyle}>No items match this category. This menu is still a work in progress  🤷‍♂️</p>
+      <p css={wrapperStyle}>No items match this category. This menu is still a work in progress  <span role="img" aria-label="Hands up emoji">🤷‍♂️</span></p>
     )
   }
 })
@@ -163,20 +156,22 @@ const MenuItem = forwardRef(({ id, name, description, spicy }, ref) => (
   </div>
 ))
 
-const MenuTitle = ({ title }) => (
-  <h3 css={css`
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: 100;
+const MenuTitle = ({ title, subtitle }) => (
+  <div css={css`
   margin-bottom: 50px;
-  `}>{title}</h3>
+  `}>
+    <h3 css={css`
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 100;
+    margin-bottom: 5px;
+    `}>{title}</h3>
+    <p css={css`
+  font-size: 14px;
+  `}>{subtitle}</p>
+  </div>
 )
 
-const MenuSubtitle = ({subtitle}) => (
-  <p css={css`
-  font-size: 12px;
-  `}>{subtitle}</p>
-)
 
 export const query = graphql`
   query MyHomePageQuery {
@@ -206,6 +201,9 @@ export const query = graphql`
     allContentfulMenuCategory {
       nodes {
         categoryName
+        description{
+          description
+        }
         id
       } 
     }
