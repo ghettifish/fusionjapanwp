@@ -15,11 +15,11 @@ const IndexPage = ({ data }) => {
   const allItems = () => {
     setCategories(data.allContentfulMenuCategory.nodes);
   }
+  
   const flip = (category) => {
-
     setCategories([{ categoryName: category.categoryName, id: category.id }])
-
   }
+
   const link = css`
   text-decoration: none; 
   color: #8c8686;
