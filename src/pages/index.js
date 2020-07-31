@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, forwardRef } from "react"
 import { Link } from "gatsby"
 import { graphql } from 'gatsby'
 import { css, jsx } from '@emotion/core'
@@ -15,7 +15,7 @@ const IndexPage = ({ data }) => {
   const allItems = () => {
     setCategories(data.allContentfulMenuCategory.nodes);
   }
-  
+
   const flip = (category) => {
     setCategories([{ categoryName: category.categoryName, id: category.id }])
   }
@@ -78,7 +78,7 @@ const IndexPage = ({ data }) => {
           if (categories.map(x => x.categoryName).includes(x.categoryName)) styles = [link, linkActive]
 
           return (
-            <li css={liStyle}><span css={styles} onClick={() => flip(x)}>{x.categoryName}</span></li>
+            <li key={x.id} css={liStyle}><span css={styles} onClick={() => flip(x)}>{x.categoryName}</span></li>
           )
         }
         )
@@ -88,7 +88,7 @@ const IndexPage = ({ data }) => {
         <FlipMove>
           {categories.map(x => (
             <div key={x.id}>
-              <Category data={data} name={x.categoryName} />
+              <Category data={data} category={x} />
             </div>
           ))
           }
@@ -100,7 +100,7 @@ const IndexPage = ({ data }) => {
 }
 
 
-const Category = ({ name, data }) => {
+const Category = forwardRef(({ category, data }, ref) => {
 
   const [mainMenuItems, setMainMenuItems] = useState(data.allContentfulMainMenuItems.nodes);
   const [sushi, setSushi] = useState(data.allContentfulSushi.nodes);
@@ -111,29 +111,28 @@ const Category = ({ name, data }) => {
   const wrapperStyle = css`
   padding: 30px 0; 
   `;
-  const reverseSushi = () => {
-    alert("clicked");
-    setSushi(sushi.reverse())
-  }
-  if (mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === name).length > 0) {
+console.log(category)
+  if (mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === category.categoryName).length > 0) {
     return (
-      <div css={wrapperStyle}>
-        <MenuTitle title={name} />
+      <div css={wrapperStyle} ref={ref}>
+        <MenuTitle title={category.categoryName} />
+        <MenuSubtitle subtitle={category.description && category.description.description}/>
         <FlipMove>
-          {mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === name).map(x => (
-            <MenuItem id={x.id} name={x.name} description={x.description.description} spicy={x.spicy} />
+          {mainMenuItems.filter(y => y.menuCategory && y.menuCategory.categoryName === category.categoryName).map(x => (
+            <MenuItem  key={x.id} id={x.id} name={x.name} description={x.description.description} spicy={x.spicy} />
           ))
           }
         </FlipMove>
       </div>
     )
-  } else if (sushi.filter(y => y.menuCategory === name).length > 0) {
+  } else if (sushi.filter(y => y.menuCategory === category.categoryName).length > 0) {
     return (
-      <div css={wrapperStyle}>
-        <MenuTitle title={name} />
+      <div css={wrapperStyle} ref={ref}>
+        <MenuTitle title={category.categoryName} />
+        <MenuSubtitle subtitle={category.description && category.description.description}/>
         <FlipMove>
 
-          {sushi.filter(y => y.menuCategory === name).map(x => (
+          {sushi.filter(y => y.menuCategory === category.categoryName).map(x => (
             <MenuItem id={x.id} name={x.name} description={x.description.description} />
           ))
           }
@@ -145,12 +144,12 @@ const Category = ({ name, data }) => {
       <p css={wrapperStyle}>No items match this category. This menu is still a work in progress  🤷‍♂️</p>
     )
   }
-}
+})
 
-const MenuItem = ({ id, name, description, spicy }) => (
+const MenuItem = forwardRef(({ id, name, description, spicy }, ref) => (
   <div key={id} css={css`
   padding: 10px;
-`}>
+`} ref={ref}>
     <h4 css={css`
   margin: 0;
   text-transform: uppercase;
@@ -162,7 +161,7 @@ const MenuItem = ({ id, name, description, spicy }) => (
   margin: 0;
 `}>{description}</p>
   </div>
-)
+))
 
 const MenuTitle = ({ title }) => (
   <h3 css={css`
@@ -171,6 +170,12 @@ const MenuTitle = ({ title }) => (
   font-weight: 100;
   margin-bottom: 50px;
   `}>{title}</h3>
+)
+
+const MenuSubtitle = ({subtitle}) => (
+  <p css={css`
+  font-size: 12px;
+  `}>{subtitle}</p>
 )
 
 export const query = graphql`

@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Fusion Japan`,
@@ -10,7 +14,7 @@ module.exports = {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         // The property ID; the tracking code won't be generated without it
-        trackingId: "UA-173917314-1",
+        trackingId: process.env.GOOGLE_TRACKING || process.env.GATSBY_GOOGLE_TRACKING,
         // Defines where to place the tracking script - `true` in the head and `false` in the body
         head: false, 
       },
@@ -18,8 +22,8 @@ module.exports = {
     {
       resolve: `gatsby-source-contentful`,
       options: {
-        spaceId: process.env.CONTENTFUL_SPACE_ID,
-        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+        spaceId: process.env.CONTENTFUL_SPACE_ID || process.env.GATSBY_CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
       },
     },
     `gatsby-plugin-react-helmet`,
@@ -49,3 +53,5 @@ module.exports = {
     // `gatsby-plugin-offline`,
   ],
 }
+
+
